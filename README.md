@@ -18,4 +18,3 @@ mobil, dan kesulitan dalam mengelola data pelanggan.
 | 103022400113     | Arya Maulana Ibrahin           |
 | 103022400147     | Ravie Arya Desta Wijayana      |
 | 103022430012     | Nasywa Azalia Andrean          |
-
