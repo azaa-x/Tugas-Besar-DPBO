@@ -39,6 +39,7 @@ public class Main {
                 break;
 
             } else if (menu == 1) {
+                // Login Admin
                 System.out.print("Masukkan nama admin: ");
                 String nama = scanner.nextLine();
                 System.out.print("Masukkan password admin: ");
@@ -131,6 +132,7 @@ public class Main {
                 }
 
             } else if (menu == 2) {
+                // Login Pelanggan
                 System.out.println("=== LOGIN PELANGGAN ===");
                 System.out.print("Nama: ");
                 String nama = scanner.nextLine();
@@ -198,7 +200,6 @@ public class Main {
                                 scanner.nextLine();
                                 SewaMobil sewa = new SewaMobil(mobilDipilih, lama);
                                 mobilDipilih.setTersedia(false);
-                                // user.catatSewa(sewa); // dihapus
 
                                 System.out.println("\n=== Bukti Sewa ===");
                                 System.out.println("Nama: " + user.getNama());
@@ -233,8 +234,9 @@ public class Main {
                                 System.out.print("Lama sewa (hari): ");
                                 int lama = scanner.nextInt();
                                 scanner.nextLine();
-                                sewaTruk sewa = new sewaTruk(trukDipilih, lama);
+                                SewaTruk sewa = new SewaTruk(trukDipilih, lama);
                                 trukDipilih.setTersedia(false);
+                                // user.catatSewa(sewa); // dihapus
 
                                 System.out.println("\n=== Bukti Sewa ===");
                                 System.out.println("Nama: " + user.getNama());
