@@ -6,6 +6,7 @@ import Kendaraan.Mobil;
 import Kendaraan.Truk;
 import Sewa.SewaMobil;
 import Sewa.SewaTruk;
+import Sewa.Sewa;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -149,6 +150,7 @@ public class Main {
                     System.out.println("2. Lihat Truk Tersedia");
                     System.out.println("3. Sewa Mobil");
                     System.out.println("4. Sewa Truk");
+                    System.out.println("5. Kembalikan Kendaraan");
                     System.out.println("0. Logout");
                     System.out.print("Pilih menu: ");
                     pilihan = scanner.nextInt();
@@ -156,7 +158,6 @@ public class Main {
 
                     switch (pilihan) {
                         case 1:
-                            System.out.println("=== Daftar Mobil Tersedia ===");
                             for (Mobil mobil : daftarMobil) {
                                 if (mobil.isTersedia()) {
                                     mobil.printDetail();
@@ -166,7 +167,6 @@ public class Main {
                             break;
 
                         case 2:
-                            System.out.println("=== Daftar Truk Tersedia ===");
                             for (Truk truk : daftarTruk) {
                                 if (truk.isTersedia()) {
                                     truk.printDetail();
@@ -198,7 +198,7 @@ public class Main {
                                 scanner.nextLine();
                                 SewaMobil sewa = new SewaMobil(mobilDipilih, lama);
                                 mobilDipilih.setTersedia(false);
-                                // user.catatSewa(sewa); // dihapus
+                                user.setSewaAktif(sewa);
 
                                 System.out.println("\n=== Bukti Sewa ===");
                                 System.out.println("Nama: " + user.getNama());
@@ -233,8 +233,9 @@ public class Main {
                                 System.out.print("Lama sewa (hari): ");
                                 int lama = scanner.nextInt();
                                 scanner.nextLine();
-                                sewaTruk sewa = new sewaTruk(trukDipilih, lama);
+                                SewaTruk sewa = new SewaTruk(trukDipilih, lama);
                                 trukDipilih.setTersedia(false);
+                                user.setSewaAktif(sewa);
 
                                 System.out.println("\n=== Bukti Sewa ===");
                                 System.out.println("Nama: " + user.getNama());
@@ -245,6 +246,17 @@ public class Main {
                                 System.out.println("Total Biaya: Rp " + formatter.format(sewa.hitungTotalBiaya()));
                             } else {
                                 System.out.println("Truk tidak ditemukan atau tidak tersedia.");
+                            }
+                            break;
+
+                        case 5:
+                            Sewa sewaAktif = user.getSewaAktif();
+                            if (sewaAktif != null) {
+                                sewaAktif.getKendaraan().setTersedia(true);
+                                user.hapusSewaAktif();
+                                System.out.println("Kendaraan berhasil dikembalikan.");
+                            } else {
+                                System.out.println("Tidak ada kendaraan yang sedang disewa.");
                             }
                             break;
 

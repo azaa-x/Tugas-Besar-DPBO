@@ -1,41 +1,33 @@
 package User;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import DPBO.Tubes1.*;
-import User.Sewa;
-import User.User;
+import Sewa.Sewa;
 
 public class Pelanggan extends User {
-    private List<Sewa> riwayatSewa = new ArrayList<>();
+    private Sewa sewaAktif;
 
     public Pelanggan(String id, String nama, String noTelepon, String alamat) {
         super(id, nama, noTelepon, alamat);
     }
 
-    public void lihatDaftarKendaraan(List<Kendaraan> daftar) {
-        System.out.println("=== Daftar Kendaraan ===");
-        for (Kendaraan k : daftar) {
-            System.out.println(k);
-        }
+    public Sewa getSewaAktif() {
+        return sewaAktif;
     }
 
-    public void sewaKendaraan(Kendaraan kendaraan, String idSewa, int lamaHari) {
-        if (kendaraan.isTersedia()) {
-            Sewa sewa = new Sewa(idSewa, this, kendaraan, LocalDate.now(), LocalDate.now().plusDays(lamaHari));
-            riwayatSewa.add(sewa);
-            System.out.println("Berhasil menyewa: " + kendaraan.getNama());
-        } else {
-            System.out.println("Kendaraan tidak tersedia.");
-        }
+    public void setSewaAktif(Sewa sewa) {
+        this.sewaAktif = sewa;
     }
 
-    public void lihatRiwayatSewa() {
-        System.out.println("=== Riwayat Sewa ===");
-        for (Sewa s : riwayatSewa) {
-            System.out.println("- " + s.getIdSewa() + " | Aktif: " + s.isAktif());
-        }
+    public void hapusSewaAktif() {
+        this.sewaAktif = null;
+    }
+
+    @Override
+    public void login() {
+        System.out.println("Login sebagai pelanggan berhasil. Selamat datang, " + getNama() + "!");
+    }
+
+    @Override
+    public void logout() {
+        System.out.println("Logout berhasil. Terima kasih, " + getNama() + "!");
     }
 }
-
