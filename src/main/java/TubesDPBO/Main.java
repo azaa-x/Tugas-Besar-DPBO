@@ -41,6 +41,7 @@ public class Main {
             if (menu == 0) break;
 
             if (menu == 1) {
+            } else if (menu == 1) {
                 System.out.print("Masukkan nama admin: ");
                 String nama = scanner.nextLine();
                 System.out.print("Masukkan password admin: ");
@@ -137,6 +138,7 @@ public class Main {
                     System.out.println("Login admin gagal!");
                 }
             } else if (menu == 2) {
+                System.out.println("=== LOGIN PELANGGAN ===");
                 System.out.print("Nama: ");
                 String nama = scanner.nextLine();
                 System.out.print("No Telepon: ");
@@ -180,6 +182,24 @@ public class Main {
                                     break;
                                 }
                             }
+                            if (mobilDipilih != null) {
+                                System.out.print("Lama sewa (hari): ");
+                                int lama = scanner.nextInt();
+                                scanner.nextLine();
+                                SewaMobil sewa = new SewaMobil(mobilDipilih, lama);
+                                mobilDipilih.setTersedia(false);
+                                user.setSewaAktif(sewa);
+
+                                System.out.println("\n=== Bukti Sewa ===");
+                                System.out.println("Nama: " + user.getNama());
+                                System.out.println("No Telepon: " + user.getNoTelepon());
+                                System.out.println("Alamat: " + user.getAlamat());
+                                mobilDipilih.printDetail();
+                                System.out.println("Lama Sewa: " + lama + " hari");
+                                System.out.println("Total Biaya: Rp " + formatter.format(sewa.hitungTotalBiaya()));
+                            } else {
+                                System.out.println("Mobil tidak ditemukan atau tidak tersedia.");
+                            }
                             break;
                         }
                         case 4: {
@@ -196,6 +216,27 @@ public class Main {
                                     break;
                                 }
                             }
+
+                            if (trukDipilih != null) {
+                                System.out.print("Lama sewa (hari): ");
+                                int lama = scanner.nextInt();
+                                scanner.nextLine();
+                                SewaTruk sewa = new SewaTruk(trukDipilih, lama);
+                                trukDipilih.setTersedia(false);
+
+                                user.setSewaAktif(sewa);
+
+                                System.out.println("\n=== Bukti Sewa ===");
+                                System.out.println("Nama: " + user.getNama());
+                                System.out.println("No Telepon: " + user.getNoTelepon());
+                                System.out.println("Alamat: " + user.getAlamat());
+                                trukDipilih.printDetail();
+                                System.out.println("Lama Sewa: " + lama + " hari");
+                                System.out.println("Total Biaya: Rp " + formatter.format(sewa.hitungTotalBiaya()));
+                            } else {
+                                System.out.println("Truk tidak ditemukan atau tidak tersedia.");
+                            }
+
                             break;
                         }
                         case 5: {

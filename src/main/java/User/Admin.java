@@ -18,6 +18,10 @@ public class Admin extends User {
         System.out.println("Admin " + getNama() + " telah logout.");
     }
 
+<<<<<<< HEAD
+    // Gunakan generic <T extends Kendaraan>
+=======
+>>>>>>> nasywa
     public <T extends Kendaraan> void tambahKendaraan(List<T> daftar, T kendaraan) {
         daftar.add(kendaraan);
         System.out.println("Kendaraan merk " + kendaraan.getMerek() + " dengan model " + kendaraan.getModel() + " ditambahkan.");
