@@ -7,11 +7,12 @@ import Kendaraan.Truk;
 import Sewa.SewaMobil;
 import Sewa.SewaTruk;
 import Sewa.Sewa;
+import Report.DamageReport;
+import Report.Insurance;
+import Report.Maintenance;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,20 +27,20 @@ public class Main {
         daftarTruk.add(new Truk("T001", "Mitsubishi", "Canter", 2018, 500000, 5.0, "Box"));
         daftarTruk.add(new Truk("T002", "Isuzu", "Giga", 2021, 650000, 10.0, "Bak Terbuka"));
 
+        List<DamageReport> laporanKerusakan = new ArrayList<>();
+        List<Insurance> laporanAsuransi = new ArrayList<>();
+
         while (true) {
             System.out.println("\n=== SELAMAT DATANG ===");
             System.out.println("1. Login sebagai Admin");
             System.out.println("2. Login sebagai Pelanggan");
             System.out.println("0. Keluar");
             System.out.print("Pilih: ");
-            int menu = scanner.nextInt();
-            scanner.nextLine();
+            int menu = scanner.nextInt(); scanner.nextLine();
 
-            if (menu == 0) {
-                System.out.println("Program selesai.");
-                break;
+            if (menu == 0) break;
 
-            } else if (menu == 1) {
+            if (menu == 1) {
                 System.out.print("Masukkan nama admin: ");
                 String nama = scanner.nextLine();
                 System.out.print("Masukkan password admin: ");
@@ -56,13 +57,14 @@ public class Main {
                         System.out.println("2. Tambah Truk");
                         System.out.println("3. Hapus Mobil");
                         System.out.println("4. Hapus Truk");
+                        System.out.println("5. Lihat Laporan Asuransi");
+                        System.out.println("6. Teruskan Laporan Asuransi");
                         System.out.println("0. Logout");
                         System.out.print("Pilih: ");
-                        pilihAdmin = scanner.nextInt();
-                        scanner.nextLine();
+                        pilihAdmin = scanner.nextInt(); scanner.nextLine();
 
                         switch (pilihAdmin) {
-                            case 1:
+                            case 1: {
                                 System.out.print("ID Mobil: ");
                                 String idMobil = scanner.nextLine();
                                 System.out.print("Merek: ");
@@ -74,17 +76,15 @@ public class Main {
                                 System.out.print("Harga Sewa: ");
                                 double harga = scanner.nextDouble();
                                 System.out.print("Kapasitas Penumpang: ");
-                                int kapasitas = scanner.nextInt();
-                                scanner.nextLine();
+                                int kapasitas = scanner.nextInt(); scanner.nextLine();
                                 System.out.print("Jenis: ");
                                 String jenis = scanner.nextLine();
 
                                 Mobil mobilBaru = new Mobil(idMobil, merek, model, tahun, harga, kapasitas, jenis);
                                 admin.tambahKendaraan(daftarMobil, mobilBaru);
-                                System.out.println("Mobil berhasil ditambahkan.");
                                 break;
-
-                            case 2:
+                            }
+                            case 2: {
                                 System.out.print("ID Truk: ");
                                 String idTruk = scanner.nextLine();
                                 System.out.print("Merek: ");
@@ -96,184 +96,133 @@ public class Main {
                                 System.out.print("Harga Sewa: ");
                                 double hargaTruk = scanner.nextDouble();
                                 System.out.print("Kapasitas Muatan (ton): ");
-                                double muatan = scanner.nextDouble();
-                                scanner.nextLine();
+                                double muatan = scanner.nextDouble(); scanner.nextLine();
                                 System.out.print("Jenis: ");
                                 String jenisTruk = scanner.nextLine();
 
                                 Truk trukBaru = new Truk(idTruk, merekTruk, modelTruk, tahunTruk, hargaTruk, muatan, jenisTruk);
                                 admin.tambahKendaraan(daftarTruk, trukBaru);
-                                System.out.println("Truk berhasil ditambahkan.");
                                 break;
-
-                            case 3:
+                            }
+                            case 3: {
                                 System.out.print("ID Mobil yang ingin dihapus: ");
                                 String hapusMobil = scanner.nextLine();
                                 admin.hapusKendaraan(daftarMobil, hapusMobil);
                                 break;
-
-                            case 4:
+                            }
+                            case 4: {
                                 System.out.print("ID Truk yang ingin dihapus: ");
                                 String hapusTruk = scanner.nextLine();
                                 admin.hapusKendaraan(daftarTruk, hapusTruk);
                                 break;
-
-                            case 0:
-                                admin.logout();
+                            }
+                            case 5:
+                                laporanAsuransi.forEach(Insurance::tampilkanLaporan);
                                 break;
-
-                            default:
-                                System.out.println("Pilihan tidak valid.");
+                            case 6: {
+                                System.out.print("Nomor polis: ");
+                                String polis = scanner.nextLine();
+                                System.out.print("Penyedia asuransi: ");
+                                String penyedia = scanner.nextLine();
+                                Insurance i = new Insurance("Laporan dari admin", new Date(), polis, penyedia);
+                                laporanAsuransi.add(i);
+                                System.out.println("Laporan asuransi diteruskan.");
+                                break;
+                            }
                         }
                     } while (pilihAdmin != 0);
+                    admin.logout();
 
                 } else {
                     System.out.println("Login admin gagal!");
                 }
-
             } else if (menu == 2) {
-                System.out.println("=== LOGIN PELANGGAN ===");
                 System.out.print("Nama: ");
                 String nama = scanner.nextLine();
                 System.out.print("No Telepon: ");
-                String noTelepon = scanner.nextLine();
+                String noTelp = scanner.nextLine();
                 System.out.print("Alamat: ");
                 String alamat = scanner.nextLine();
 
-                Pelanggan user = new Pelanggan("PLG001", nama, noTelepon, alamat);
+                Pelanggan user = new Pelanggan("PLG001", nama, noTelp, alamat);
                 user.login();
 
                 int pilihan;
                 do {
                     System.out.println("\n=== MENU PELANGGAN ===");
-                    System.out.println("1. Lihat Mobil Tersedia");
-                    System.out.println("2. Lihat Truk Tersedia");
+                    System.out.println("1. Lihat Mobil");
+                    System.out.println("2. Lihat Truk");
                     System.out.println("3. Sewa Mobil");
                     System.out.println("4. Sewa Truk");
                     System.out.println("5. Kembalikan Kendaraan");
                     System.out.println("0. Logout");
-                    System.out.print("Pilih menu: ");
-                    pilihan = scanner.nextInt();
-                    scanner.nextLine();
+                    System.out.print("Pilih: ");
+                    pilihan = scanner.nextInt(); scanner.nextLine();
 
                     switch (pilihan) {
                         case 1:
-                            for (Mobil mobil : daftarMobil) {
-                                if (mobil.isTersedia()) {
-                                    mobil.printDetail();
-                                    System.out.println("-------------------");
-                                }
-                            }
+                            daftarMobil.stream().filter(m -> m.isTersedia() && !m.isMaintenance()).forEach(Mobil::printDetail);
                             break;
-
                         case 2:
-                            for (Truk truk : daftarTruk) {
-                                if (truk.isTersedia()) {
-                                    truk.printDetail();
-                                    System.out.println("-------------------");
-                                }
-                            }
+                            daftarTruk.stream().filter(t -> t.isTersedia() && !t.isMaintenance()).forEach(Truk::printDetail);
                             break;
-
-                        case 3:
-                            System.out.println("=== Sewa Mobil ===");
-                            for (Mobil mobil : daftarMobil) {
-                                if (mobil.isTersedia()) {
-                                    mobil.printDetail();
-                                    System.out.println("-------------------");
-                                }
-                            }
-                            System.out.print("Masukkan ID Mobil yang ingin disewa: ");
-                            String idMobil = scanner.nextLine();
-                            Mobil mobilDipilih = null;
-                            for (Mobil mobil : daftarMobil) {
-                                if (mobil.getId().equalsIgnoreCase(idMobil) && mobil.isTersedia()) {
-                                    mobilDipilih = mobil;
+                        case 3: {
+                            System.out.print("ID Mobil: ");
+                            String id = scanner.nextLine();
+                            for (Mobil m : daftarMobil) {
+                                if (m.getId().equalsIgnoreCase(id) && m.isTersedia() && !m.isMaintenance()) {
+                                    System.out.print("Lama sewa (hari): ");
+                                    int lama = scanner.nextInt(); scanner.nextLine();
+                                    SewaMobil sewa = new SewaMobil(m, lama);
+                                    m.setTersedia(false);
+                                    user.setSewaAktif(sewa);
+                                    System.out.println("Berhasil disewa.");
                                     break;
                                 }
                             }
-                            if (mobilDipilih != null) {
-                                System.out.print("Lama sewa (hari): ");
-                                int lama = scanner.nextInt();
-                                scanner.nextLine();
-                                SewaMobil sewa = new SewaMobil(mobilDipilih, lama);
-                                mobilDipilih.setTersedia(false);
-                                user.setSewaAktif(sewa);
-
-                                System.out.println("\n=== Bukti Sewa ===");
-                                System.out.println("Nama: " + user.getNama());
-                                System.out.println("No Telepon: " + user.getNoTelepon());
-                                System.out.println("Alamat: " + user.getAlamat());
-                                mobilDipilih.printDetail();
-                                System.out.println("Lama Sewa: " + lama + " hari");
-                                System.out.println("Total Biaya: Rp " + formatter.format(sewa.hitungTotalBiaya()));
-                            } else {
-                                System.out.println("Mobil tidak ditemukan atau tidak tersedia.");
-                            }
                             break;
-
-                        case 4:
-                            System.out.println("=== Sewa Truk ===");
-                            for (Truk truk : daftarTruk) {
-                                if (truk.isTersedia()) {
-                                    truk.printDetail();
-                                    System.out.println("-------------------");
-                                }
-                            }
-                            System.out.print("Masukkan ID Truk yang ingin disewa: ");
-                            String idTruk = scanner.nextLine();
-                            Truk trukDipilih = null;
-                            for (Truk truk : daftarTruk) {
-                                if (truk.getId().equalsIgnoreCase(idTruk) && truk.isTersedia()) {
-                                    trukDipilih = truk;
+                        }
+                        case 4: {
+                            System.out.print("ID Truk: ");
+                            String id = scanner.nextLine();
+                            for (Truk t : daftarTruk) {
+                                if (t.getId().equalsIgnoreCase(id) && t.isTersedia() && !t.isMaintenance()) {
+                                    System.out.print("Lama sewa (hari): ");
+                                    int lama = scanner.nextInt(); scanner.nextLine();
+                                    SewaTruk sewa = new SewaTruk(t, lama);
+                                    t.setTersedia(false);
+                                    user.setSewaAktif(sewa);
+                                    System.out.println("Berhasil disewa.");
                                     break;
                                 }
                             }
-                            if (trukDipilih != null) {
-                                System.out.print("Lama sewa (hari): ");
-                                int lama = scanner.nextInt();
-                                scanner.nextLine();
-                                SewaTruk sewa = new SewaTruk(trukDipilih, lama);
-                                trukDipilih.setTersedia(false);
-                                user.setSewaAktif(sewa);
-
-                                System.out.println("\n=== Bukti Sewa ===");
-                                System.out.println("Nama: " + user.getNama());
-                                System.out.println("No Telepon: " + user.getNoTelepon());
-                                System.out.println("Alamat: " + user.getAlamat());
-                                trukDipilih.printDetail();
-                                System.out.println("Lama Sewa: " + lama + " hari");
-                                System.out.println("Total Biaya: Rp " + formatter.format(sewa.hitungTotalBiaya()));
-                            } else {
-                                System.out.println("Truk tidak ditemukan atau tidak tersedia.");
-                            }
                             break;
-
-                        case 5:
-                            Sewa sewaAktif = user.getSewaAktif();
-                            if (sewaAktif != null) {
-                                sewaAktif.getKendaraan().setTersedia(true);
+                        }
+                        case 5: {
+                            Sewa sewa = user.getSewaAktif();
+                            if (sewa != null) {
+                                sewa.getKendaraan().setTersedia(true);
+                                System.out.print("Apakah ada kerusakan? (ya/tidak): ");
+                                String jawab = scanner.nextLine();
+                                if (jawab.equalsIgnoreCase("ya")) {
+                                    System.out.print("Tingkat kerusakan: ");
+                                    String tingkat = scanner.nextLine();
+                                    DamageReport dr = new DamageReport("Kerusakan oleh pelanggan " + user.getNama(), new Date(), tingkat);
+                                    laporanKerusakan.add(dr);
+                                    dr.tampilkanLaporan();
+                                }
                                 user.hapusSewaAktif();
-                                System.out.println("Kendaraan berhasil dikembalikan.");
+                                System.out.println("Pengembalian berhasil.");
                             } else {
                                 System.out.println("Tidak ada kendaraan yang sedang disewa.");
                             }
                             break;
-
-                        case 0:
-                            user.logout();
-                            break;
-
-                        default:
-                            System.out.println("Pilihan tidak valid.");
+                        }
                     }
                 } while (pilihan != 0);
-
-            } else {
-                System.out.println("Pilihan tidak valid.");
+                user.logout();
             }
         }
-
         scanner.close();
     }
 }
