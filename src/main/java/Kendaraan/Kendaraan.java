@@ -7,6 +7,7 @@ public abstract class Kendaraan {
     private int tahun;
     private double tarifPerHari;
     private boolean tersedia;
+    private boolean maintenance = false;
 
     public Kendaraan(String id, String merek, String model, 
     		int tahun, double tarifPerHari) {
@@ -48,6 +49,22 @@ public abstract class Kendaraan {
 
     public void setTersedia(boolean tersedia) {
         this.tersedia = tersedia;
+    }
+
+    public boolean isMaintenance() {
+        return maintenance;
+    }
+
+    public void setMaintenance(boolean maintenance) {
+        this.maintenance = maintenance;
+    }
+
+    public void mulaiMaintenance() {
+        this.maintenance = true;
+    }
+
+    public void selesaiMaintenance() {
+        this.maintenance = false;
     }
 
     public double hitungBiaya(int sewaHari) {
