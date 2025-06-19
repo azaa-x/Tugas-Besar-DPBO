@@ -117,7 +117,9 @@ public class Main {
                                 admin.hapusKendaraan(daftarTruk, hapusTruk);
                                 break;
                             case 5:
-                                laporanAsuransi.forEach(Insurance::tampilkanLaporan);
+                            	for (Insurance laporan : laporanAsuransi) {
+                            	    laporan.tampilkanLaporan();
+                            	}
                                 break;
                             case 6:
                                 System.out.print("Nomor polis: ");
@@ -129,7 +131,9 @@ public class Main {
                                 System.out.println("Laporan asuransi diteruskan.");
                                 break;
                             case 7:
-                                laporanMaintenance.forEach(Maintenance::tampilkanLaporan);
+                            	for (Maintenance laporan : laporanMaintenance) {
+                            	    laporan.tampilkanLaporan();
+                            	}
                                 break;
                         }
                     } while (pilihAdmin != 0);
@@ -162,10 +166,18 @@ public class Main {
 
                     switch (pilihan) {
                         case 1:
-                            daftarMobil.stream().filter(m -> m.isTersedia() && !m.isMaintenance()).forEach(Mobil::printDetail);
+                        	for (Mobil m : daftarMobil) {
+                        	    if (m.isTersedia() && !m.isMaintenance()) {
+                        	        m.printDetail();
+                        	    }
+                        	}
                             break;
                         case 2:
-                            daftarTruk.stream().filter(t -> t.isTersedia() && !t.isMaintenance()).forEach(Truk::printDetail);
+                        	for (Truk t : daftarTruk) {
+                        	    if (t.isTersedia() && !t.isMaintenance()) {
+                        	        t.printDetail();
+                        	    }
+                        	}
                             break;
                         case 3:
                             System.out.print("ID Mobil: ");
